@@ -5,7 +5,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author : manojkumarpanchal
@@ -15,21 +14,22 @@ import java.util.UUID;
 public class User {
 
     @Id
-    private UUID id;
+    private String id;
     private String name;
     private String gender;
     private Date dateOfBirth;
     private String mobile;
     private String email;
     private String governmentId;
+    private String password;
     private List<Incident> incidentsReported;
     private List<SuspiciousPlace> placesReported;
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -79,6 +79,14 @@ public class User {
 
     public void setGovernmentId(String governmentId) {
         this.governmentId = governmentId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public List<Incident> getIncidentsReported() {

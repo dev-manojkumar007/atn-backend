@@ -5,7 +5,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author : manojkumarpanchal
@@ -15,7 +14,7 @@ import java.util.UUID;
 public class Incident {
 
     @Id
-    private UUID id;
+    private String id;
     private String title;
     private String type;
     private String description;
@@ -23,12 +22,13 @@ public class Incident {
     private String severity;
     private SuspiciousPlace suspiciousPlace;
     private List<SuspiciousPerson> suspiciousPeople;
+    private String reportStatus;
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -86,5 +86,13 @@ public class Incident {
 
     public void setSuspiciousPeople(List<SuspiciousPerson> suspiciousPeople) {
         this.suspiciousPeople = suspiciousPeople;
+    }
+
+    public String getReportStatus() {
+        return reportStatus;
+    }
+
+    public void setReportStatus(String reportStatus) {
+        this.reportStatus = reportStatus;
     }
 }

@@ -3,8 +3,6 @@ package com.attention.atnbackend.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.UUID;
-
 /**
  * @author : manojkumarpanchal
  * @created : 20/10/23, Friday
@@ -13,7 +11,7 @@ import java.util.UUID;
 public class Address {
 
     @Id
-    private UUID id;
+    private String id;
     private String line1;
     private String line2;
     private String landmark;
@@ -22,11 +20,11 @@ public class Address {
     private String country;
     private String pin;
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 

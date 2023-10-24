@@ -3,8 +3,7 @@ package com.attention.atnbackend.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
 /**
  * @author : manojkumarpanchal
@@ -14,18 +13,20 @@ import java.util.UUID;
 public class SuspiciousPlace {
 
     @Id
-    private UUID id;
+    private String id;
     private String title;
     private Address address;
-    private String severityIndex;
+    private Integer severityIndex;
     private Integer incidentsReported;
-    private List<String> vulnerabilities;
+    private Integer upVotes;
+    private Integer downVotes;
+    private Map<String, Integer> vulnerabilities;
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -45,11 +46,11 @@ public class SuspiciousPlace {
         this.address = address;
     }
 
-    public String getSeverityIndex() {
+    public Integer getSeverityIndex() {
         return severityIndex;
     }
 
-    public void setSeverityIndex(String severityIndex) {
+    public void setSeverityIndex(Integer severityIndex) {
         this.severityIndex = severityIndex;
     }
 
@@ -61,11 +62,27 @@ public class SuspiciousPlace {
         this.incidentsReported = incidentsReported;
     }
 
-    public List<String> getVulnerabilities() {
+    public Integer getUpVotes() {
+        return upVotes;
+    }
+
+    public void setUpVotes(Integer upVotes) {
+        this.upVotes = upVotes;
+    }
+
+    public Integer getDownVotes() {
+        return downVotes;
+    }
+
+    public void setDownVotes(Integer downVotes) {
+        this.downVotes = downVotes;
+    }
+
+    public Map<String, Integer> getVulnerabilities() {
         return vulnerabilities;
     }
 
-    public void setVulnerabilities(List<String> vulnerabilities) {
+    public void setVulnerabilities(Map<String, Integer> vulnerabilities) {
         this.vulnerabilities = vulnerabilities;
     }
 }
