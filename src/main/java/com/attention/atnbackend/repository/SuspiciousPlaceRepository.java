@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
  **/
 @Repository
 public interface SuspiciousPlaceRepository extends MongoRepository<SuspiciousPlace, String> {
+
+    SuspiciousPlace findSuspiciousPlaceByAddressId(String addressId);
 }

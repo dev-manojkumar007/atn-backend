@@ -32,7 +32,7 @@ public class UserController {
 
     @PostMapping("/user")
     public ResponseEntity<?> createUser(@RequestBody User user) {
-        return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.createUser(user), HttpStatus.OK);
     }
 
     @GetMapping("/user/email/{email}")

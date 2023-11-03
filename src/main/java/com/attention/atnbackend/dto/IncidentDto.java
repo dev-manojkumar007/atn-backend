@@ -1,37 +1,24 @@
-package com.attention.atnbackend.model;
+package com.attention.atnbackend.dto;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.attention.atnbackend.model.SuspiciousPerson;
+import com.attention.atnbackend.model.SuspiciousPlace;
 
 import java.util.Date;
 import java.util.List;
 
 /**
  * @author : manojkumarpanchal
- * @created : 20/10/23, Friday
+ * @created : 01/11/23, Wednesday
  **/
-@Document("incident")
-public class Incident {
+public class IncidentDto {
 
-    @Id
-    private String id;
     private String title;
     private String type;
     private String description;
     private Date dateTime;
     private String severity;
-    private SuspiciousPlace suspiciousPlace;
+    private SuspiciousPlaceDto suspiciousPlaceDto;
     private List<SuspiciousPerson> suspiciousPeople;
-    private String reportStatus;
-    private String userId;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -73,12 +60,12 @@ public class Incident {
         this.severity = severity;
     }
 
-    public SuspiciousPlace getSuspiciousPlace() {
-        return suspiciousPlace;
+    public SuspiciousPlaceDto getSuspiciousPlaceDto() {
+        return suspiciousPlaceDto;
     }
 
-    public void setSuspiciousPlace(SuspiciousPlace suspiciousPlace) {
-        this.suspiciousPlace = suspiciousPlace;
+    public void setSuspiciousPlaceDto(SuspiciousPlaceDto suspiciousPlaceDto) {
+        this.suspiciousPlaceDto = suspiciousPlaceDto;
     }
 
     public List<SuspiciousPerson> getSuspiciousPeople() {
@@ -87,21 +74,5 @@ public class Incident {
 
     public void setSuspiciousPeople(List<SuspiciousPerson> suspiciousPeople) {
         this.suspiciousPeople = suspiciousPeople;
-    }
-
-    public String getReportStatus() {
-        return reportStatus;
-    }
-
-    public void setReportStatus(String reportStatus) {
-        this.reportStatus = reportStatus;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 }

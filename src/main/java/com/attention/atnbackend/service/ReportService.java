@@ -1,5 +1,7 @@
 package com.attention.atnbackend.service;
 
+import com.attention.atnbackend.dto.IncidentDto;
+import com.attention.atnbackend.dto.SuspiciousPlaceDto;
 import com.attention.atnbackend.dto.SuspiciousPlaceVoteDto;
 import com.attention.atnbackend.model.Incident;
 import com.attention.atnbackend.model.SuspiciousPlace;
@@ -12,8 +14,8 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ReportService {
 
-    Incident reportIncident(String userId, Incident incident);
-    SuspiciousPlace reportSuspiciousPlace(String userId, SuspiciousPlace suspiciousPlace);
+    Incident reportIncident(String userId, IncidentDto incidentDto);
+    SuspiciousPlace reportSuspiciousPlace(String userId, SuspiciousPlaceDto suspiciousPlaceDto);
     Boolean upVoteSuspiciousPlace(SuspiciousPlaceVoteDto suspiciousPlaceVoteDto);
     Boolean downVoteSuspiciousPlace(SuspiciousPlaceVoteDto suspiciousPlaceVoteDto);
 }

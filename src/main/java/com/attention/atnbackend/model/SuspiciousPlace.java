@@ -15,9 +15,10 @@ public class SuspiciousPlace {
     @Id
     private String id;
     private String title;
-    private Address address;
+    private String addressId;
     private Integer severityIndex;
-    private Integer incidentsReported;
+    private Integer numberOfIncidentsReported;
+    private Integer numberOfReportsByUser;
     private Integer upVotes;
     private Integer downVotes;
     private Map<String, Integer> vulnerabilities;
@@ -38,12 +39,12 @@ public class SuspiciousPlace {
         this.title = title;
     }
 
-    public Address getAddress() {
-        return address;
+    public String getAddressId() {
+        return addressId;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setAddressId(String addressId) {
+        this.addressId = addressId;
     }
 
     public Integer getSeverityIndex() {
@@ -54,12 +55,20 @@ public class SuspiciousPlace {
         this.severityIndex = severityIndex;
     }
 
-    public Integer getIncidentsReported() {
-        return incidentsReported;
+    public Integer getNumberOfIncidentsReported() {
+        return numberOfIncidentsReported;
     }
 
-    public void setIncidentsReported(Integer incidentsReported) {
-        this.incidentsReported = incidentsReported;
+    public void setNumberOfIncidentsReported(Integer numberOfIncidentsReported) {
+        this.numberOfIncidentsReported = numberOfIncidentsReported;
+    }
+
+    public Integer getNumberOfReportsByUser() {
+        return numberOfReportsByUser;
+    }
+
+    public void setNumberOfReportsByUser(Integer numberOfReportsByUser) {
+        this.numberOfReportsByUser = numberOfReportsByUser;
     }
 
     public Integer getUpVotes() {

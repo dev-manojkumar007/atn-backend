@@ -22,8 +22,7 @@ public class User {
     private String email;
     private String governmentId;
     private String password;
-    private List<Incident> incidentsReported;
-    private List<SuspiciousPlace> placesReported;
+    private List<String> placesReported;
 
     public String getId() {
         return id;
@@ -89,19 +88,11 @@ public class User {
         this.password = password;
     }
 
-    public List<Incident> getIncidentsReported() {
-        return incidentsReported;
-    }
-
-    public void setIncidentsReported(List<Incident> incidentsReported) {
-        this.incidentsReported = incidentsReported;
-    }
-
-    public List<SuspiciousPlace> getPlacesReported() {
+    public List<String> getPlacesReported() {
         return placesReported;
     }
 
-    public void setPlacesReported(List<SuspiciousPlace> placesReported) {
+    public void setPlacesReported(List<String> placesReported) {
         this.placesReported = placesReported;
     }
 }

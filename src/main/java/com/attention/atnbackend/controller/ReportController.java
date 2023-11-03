@@ -1,8 +1,8 @@
 package com.attention.atnbackend.controller;
 
+import com.attention.atnbackend.dto.IncidentDto;
+import com.attention.atnbackend.dto.SuspiciousPlaceDto;
 import com.attention.atnbackend.dto.SuspiciousPlaceVoteDto;
-import com.attention.atnbackend.model.Incident;
-import com.attention.atnbackend.model.SuspiciousPlace;
 import com.attention.atnbackend.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,14 +33,14 @@ public class ReportController {
 
     @PostMapping("/incident")
     public ResponseEntity<?> reportIncident(@RequestParam String userId,
-                                         @RequestBody Incident incident) {
-        return new ResponseEntity<>(reportService.reportIncident(userId, incident), HttpStatus.CREATED);
+                                         @RequestBody IncidentDto incidentDto) {
+        return new ResponseEntity<>(reportService.reportIncident(userId, incidentDto), HttpStatus.OK);
     }
 
     @PostMapping("/suspicious-place")
     public ResponseEntity<?> reportSuspiciousPlace(@RequestParam String userId,
-                                            @RequestBody SuspiciousPlace suspiciousPlace) {
-        return new ResponseEntity<>(reportService.reportSuspiciousPlace(userId, suspiciousPlace), HttpStatus.OK);
+                                            @RequestBody SuspiciousPlaceDto suspiciousPlaceDto) {
+        return new ResponseEntity<>(reportService.reportSuspiciousPlace(userId, suspiciousPlaceDto), HttpStatus.OK);
     }
 
     @PutMapping("/suspicious-place/upVote")

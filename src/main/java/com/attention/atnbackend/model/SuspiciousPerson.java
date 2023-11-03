@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author : manojkumarpanchal
  * @created : 20/10/23, Friday
  **/
-@Document("suspicious_person")
 public class SuspiciousPerson {
 
     @Id

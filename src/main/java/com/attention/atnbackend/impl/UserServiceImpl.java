@@ -3,10 +3,13 @@ package com.attention.atnbackend.impl;
 import com.attention.atnbackend.model.Incident;
 import com.attention.atnbackend.model.SuspiciousPlace;
 import com.attention.atnbackend.model.User;
+import com.attention.atnbackend.repository.IncidentRepository;
+import com.attention.atnbackend.repository.SuspiciousPlaceRepository;
 import com.attention.atnbackend.repository.UserRepository;
 import com.attention.atnbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,10 +20,22 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
+    private IncidentRepository incidentRepository;
+    private SuspiciousPlaceRepository suspiciousPlaceRepository;
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @Autowired
+    public void setIncidentRepository(IncidentRepository incidentRepository) {
+        this.incidentRepository = incidentRepository;
+    }
+
+    @Autowired
+    public void setSuspiciousPlaceRepository(SuspiciousPlaceRepository suspiciousPlaceRepository) {
+        this.suspiciousPlaceRepository = suspiciousPlaceRepository;
     }
 
     @Override
@@ -36,26 +51,32 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByMobile(String mobile) {
-        return null;
+        return userRepository.findUserByMobile(mobile);
     }
 
     @Override
     public User getUserByEmail(String email) {
-        return null;
+        return userRepository.findUserByEmail(email);
     }
 
     @Override
     public User getUserByGovtId(String governmentId) {
-        return null;
+        return userRepository.findUserByGovernmentId(governmentId);
     }
 
     @Override
     public List<Incident> getIncidentsReportedByUser(String userId) {
-        return null;
+        return incidentRepository.getAllIncidentsReportedByUser(userId);
     }
 
     @Override
     public List<SuspiciousPlace> getSusPlacesReportedByUser(String userId) {
-        return null;
+        List<String> suspiciousPlaceIds = userRepository.findById(userId).get().getPlacesReported();
+        List<SuspiciousPlace> suspiciousPlaces = new ArrayList<>();
+
+        for(String suspiciousPlaceId : suspiciousPlaceIds)
+            suspiciousPlaces.add(suspiciousPlaceRepository.findById(suspiciousPlaceId).get());
+
+        return suspiciousPlaces;
     }
 }
