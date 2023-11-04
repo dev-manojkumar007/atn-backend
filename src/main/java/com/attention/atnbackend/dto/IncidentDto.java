@@ -1,7 +1,6 @@
 package com.attention.atnbackend.dto;
 
 import com.attention.atnbackend.model.SuspiciousPerson;
-import com.attention.atnbackend.model.SuspiciousPlace;
 
 import java.util.Date;
 import java.util.List;

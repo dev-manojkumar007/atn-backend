@@ -4,8 +4,6 @@ import com.attention.atnbackend.model.Incident;
 import com.attention.atnbackend.model.SuspiciousPlace;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
  * @author : manojkumarpanchal
  * @created : 24/10/23, Tuesday

@@ -20,7 +20,7 @@ public class Incident {
     private String description;
     private Date dateTime;
     private String severity;
-    private SuspiciousPlace suspiciousPlace;
+    private String suspiciousPlaceId;
     private List<SuspiciousPerson> suspiciousPeople;
     private String reportStatus;
     private String userId;
@@ -73,12 +73,12 @@ public class Incident {
         this.severity = severity;
     }
 
-    public SuspiciousPlace getSuspiciousPlace() {
-        return suspiciousPlace;
+    public String getSuspiciousPlaceId() {
+        return suspiciousPlaceId;
     }
 
-    public void setSuspiciousPlace(SuspiciousPlace suspiciousPlace) {
-        this.suspiciousPlace = suspiciousPlace;
+    public void setSuspiciousPlaceId(String suspiciousPlaceId) {
+        this.suspiciousPlaceId = suspiciousPlaceId;
     }
 
     public List<SuspiciousPerson> getSuspiciousPeople() {

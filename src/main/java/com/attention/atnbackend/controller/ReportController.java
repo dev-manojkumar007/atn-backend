@@ -2,7 +2,6 @@ package com.attention.atnbackend.controller;
 
 import com.attention.atnbackend.dto.IncidentDto;
 import com.attention.atnbackend.dto.SuspiciousPlaceDto;
-import com.attention.atnbackend.dto.SuspiciousPlaceVoteDto;
 import com.attention.atnbackend.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,12 +43,12 @@ public class ReportController {
     }
 
     @PutMapping("/suspicious-place/upVote")
-    public ResponseEntity<?> upVoteSuspiciousPlace(@RequestBody SuspiciousPlaceVoteDto suspiciousPlaceVoteDto) {
-        return new ResponseEntity<>(reportService.upVoteSuspiciousPlace(suspiciousPlaceVoteDto), HttpStatus.OK);
+    public ResponseEntity<?> upVoteSuspiciousPlace(@RequestParam String suspiciousPlaceId) {
+        return new ResponseEntity<>(reportService.upVoteSuspiciousPlace(suspiciousPlaceId), HttpStatus.OK);
     }
 
     @PutMapping("/suspicious-place/downVote")
-    public ResponseEntity<?> downVoteSuspiciousPlace(@RequestBody SuspiciousPlaceVoteDto suspiciousPlaceVoteDto) {
-        return new ResponseEntity<>(reportService.downVoteSuspiciousPlace(suspiciousPlaceVoteDto), HttpStatus.OK);
+    public ResponseEntity<?> downVoteSuspiciousPlace(@RequestParam String suspiciousPlaceId) {
+        return new ResponseEntity<>(reportService.downVoteSuspiciousPlace(suspiciousPlaceId), HttpStatus.OK);
     }
 }
