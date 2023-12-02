@@ -15,6 +15,6 @@ public interface ReportService {
 
     Incident reportIncident(String userId, IncidentDto incidentDto);
     SuspiciousPlace reportSuspiciousPlace(String userId, SuspiciousPlaceDto suspiciousPlaceDto);
-    Boolean upVoteSuspiciousPlace(String suspiciousPlaceId);
-    Boolean downVoteSuspiciousPlace(String suspiciousPlaceId);
+    String upVoteSuspiciousPlace(String suspiciousPlaceId, String userId);
+    String downVoteSuspiciousPlace(String suspiciousPlaceId, String userId);
 }

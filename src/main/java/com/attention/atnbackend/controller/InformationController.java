@@ -28,11 +28,26 @@ public class InformationController {
 
     @GetMapping("/incident/{incidentId}")
     public ResponseEntity<?> getIncidentById(@PathVariable String incidentId) {
+
+        if(informationService.getIncidentById(incidentId) == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(informationService.getIncidentById(incidentId), HttpStatus.OK);
     }
 
     @GetMapping("/suspicious-place/{placeId}")
     public ResponseEntity<?> getSuspiciousPlaceById(@PathVariable String placeId) {
+        if(informationService.getSuspiciousPlaceById(placeId) == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(informationService.getSuspiciousPlaceById(placeId), HttpStatus.OK);
+    }
+
+    @GetMapping("/address/{addressId}")
+    public ResponseEntity<?> getAddressById(@PathVariable String addressId) {
+        if(informationService.getAddressById(addressId) == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(informationService.getAddressById(addressId), HttpStatus.OK);
     }
 }

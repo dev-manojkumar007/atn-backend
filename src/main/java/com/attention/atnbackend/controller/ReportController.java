@@ -43,12 +43,14 @@ public class ReportController {
     }
 
     @PutMapping("/suspicious-place/upVote")
-    public ResponseEntity<?> upVoteSuspiciousPlace(@RequestParam String suspiciousPlaceId) {
-        return new ResponseEntity<>(reportService.upVoteSuspiciousPlace(suspiciousPlaceId), HttpStatus.OK);
+    public ResponseEntity<?> upVoteSuspiciousPlace(@RequestParam String suspiciousPlaceId,
+                                                   @RequestParam String userId) {
+        return new ResponseEntity<>(reportService.upVoteSuspiciousPlace(suspiciousPlaceId, userId), HttpStatus.OK);
     }
 
     @PutMapping("/suspicious-place/downVote")
-    public ResponseEntity<?> downVoteSuspiciousPlace(@RequestParam String suspiciousPlaceId) {
-        return new ResponseEntity<>(reportService.downVoteSuspiciousPlace(suspiciousPlaceId), HttpStatus.OK);
+    public ResponseEntity<?> downVoteSuspiciousPlace(@RequestParam String suspiciousPlaceId,
+                                                     @RequestParam String userId) {
+        return new ResponseEntity<>(reportService.downVoteSuspiciousPlace(suspiciousPlaceId, userId), HttpStatus.OK);
     }
 }

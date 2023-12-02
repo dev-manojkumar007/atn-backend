@@ -21,8 +21,11 @@ public class User {
     private String mobile;
     private String email;
     private String governmentId;
+    private String governmentIdType;
     private String password;
     private List<String> placesReported;
+    private List<String> upVotePlaces;
+    private List<String> downVotePlaces;
 
     public String getId() {
         return id;
@@ -80,6 +83,14 @@ public class User {
         this.governmentId = governmentId;
     }
 
+    public String getGovernmentIdType() {
+        return governmentIdType;
+    }
+
+    public void setGovernmentIdType(String governmentIdType) {
+        this.governmentIdType = governmentIdType;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -94,5 +105,21 @@ public class User {
 
     public void setPlacesReported(List<String> placesReported) {
         this.placesReported = placesReported;
+    }
+
+    public List<String> getUpVotePlaces() {
+        return upVotePlaces;
+    }
+
+    public void setUpVotePlaces(List<String> upVotePlaces) {
+        this.upVotePlaces = upVotePlaces;
+    }
+
+    public List<String> getDownVotePlaces() {
+        return downVotePlaces;
+    }
+
+    public void setDownVotePlaces(List<String> downVotePlaces) {
+        this.downVotePlaces = downVotePlaces;
     }
 }

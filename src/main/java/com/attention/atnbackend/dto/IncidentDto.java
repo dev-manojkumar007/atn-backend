@@ -14,9 +14,9 @@ public class IncidentDto {
     private String title;
     private String type;
     private String description;
-    private Date dateTime;
+    private String dateTime;
     private String severity;
-    private SuspiciousPlaceDto suspiciousPlaceDto;
+    private SuspiciousPlaceDto suspiciousPlace;
     private List<SuspiciousPerson> suspiciousPeople;
 
     public String getTitle() {
@@ -43,11 +43,11 @@ public class IncidentDto {
         this.description = description;
     }
 
-    public Date getDateTime() {
+    public String getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(Date dateTime) {
+    public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
     }
 
@@ -59,12 +59,13 @@ public class IncidentDto {
         this.severity = severity;
     }
 
-    public SuspiciousPlaceDto getSuspiciousPlaceDto() {
-        return suspiciousPlaceDto;
+    public SuspiciousPlaceDto getSuspiciousPlace() {
+
+        return suspiciousPlace;
     }
 
-    public void setSuspiciousPlaceDto(SuspiciousPlaceDto suspiciousPlaceDto) {
-        this.suspiciousPlaceDto = suspiciousPlaceDto;
+    public void setSuspiciousPlace(SuspiciousPlaceDto suspiciousPlace) {
+        this.suspiciousPlace = suspiciousPlace;
     }
 
     public List<SuspiciousPerson> getSuspiciousPeople() {

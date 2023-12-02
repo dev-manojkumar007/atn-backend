@@ -1,6 +1,7 @@
 package com.attention.atnbackend.controller;
 
-import com.attention.atnbackend.model.User;
+import com.attention.atnbackend.dto.UserDto;
+import com.attention.atnbackend.repository.UserRepository;
 import com.attention.atnbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
 /**
  * @author : manojkumarpanchal
  * @created : 24/10/23, Tuesday
@@ -24,42 +26,63 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private UserService userService;
+    private UserRepository userRepository;
 
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @PostMapping("/user")
-    public ResponseEntity<?> createUser(@RequestBody User user) {
-        return new ResponseEntity<>(userService.createUser(user), HttpStatus.OK);
+    public ResponseEntity<?> createUser(@RequestBody UserDto userDto) {
+
+        if(userRepository.findUserByEmail(userDto.getEmail()) != null)
+            return new ResponseEntity<>("User already exist in system with given Email", HttpStatus.BAD_REQUEST);
+
+        if(userRepository.findUserByMobile(userDto.getMobile()) != null)
+            return new ResponseEntity<>("User already exist in system with given Mobile Number", HttpStatus.BAD_REQUEST);
+
+        if(userRepository.findUserByGovernmentId(userDto.getGovernmentId()) != null)
+            return new ResponseEntity<>("User already exist in system with given Government ID", HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(userService.createUser(userDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable String id) {
+        if(userService.getUserById(id) == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
 
     @GetMapping("/user/email/{email}")
     public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
-        User user = userService.getUserByEmail(email);
-        if(user == null)
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        if(userService.getUserByEmail(email) == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(userService.getUserByEmail(email), HttpStatus.OK);
     }
 
     @GetMapping("/user/mobile/{mobile}")
     public ResponseEntity<?> getUserByMobile(@PathVariable String mobile) {
-        User user = userService.getUserByMobile(mobile);
-        if(user == null)
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        if(userService.getUserByMobile(mobile) == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(userService.getUserByMobile(mobile), HttpStatus.OK);
     }
 
     @GetMapping("/user/government")
     public ResponseEntity<?> getUserByGovtId(@RequestParam String govtId) {
-        User user = userService.getUserByGovtId(govtId);
-        if(user == null)
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        if(userService.getUserByGovtId(govtId) == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(userService.getUserByGovtId(govtId), HttpStatus.OK);
     }
 
     @GetMapping("/user/incident/{userId}")

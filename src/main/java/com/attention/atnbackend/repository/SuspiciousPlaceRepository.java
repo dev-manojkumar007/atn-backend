@@ -2,6 +2,7 @@ package com.attention.atnbackend.repository;
 
 import com.attention.atnbackend.model.SuspiciousPlace;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,5 +12,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SuspiciousPlaceRepository extends MongoRepository<SuspiciousPlace, String> {
 
+    @Query("{\"addressId\" : ?0}")
     SuspiciousPlace findSuspiciousPlaceByAddressId(String addressId);
 }

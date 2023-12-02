@@ -1,5 +1,6 @@
 package com.attention.atnbackend.service;
 
+import com.attention.atnbackend.dto.UserDto;
 import com.attention.atnbackend.model.Incident;
 import com.attention.atnbackend.model.SuspiciousPlace;
 import com.attention.atnbackend.model.User;
@@ -14,7 +15,7 @@ import java.util.List;
 @Service
 public interface UserService {
 
-    User createUser(User user);
+    User createUser(UserDto userDto);
     User getUserById(String id);
     User getUserByMobile(String mobile);
     User getUserByEmail(String email);

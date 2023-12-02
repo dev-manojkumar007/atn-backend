@@ -10,12 +10,15 @@ import com.attention.atnbackend.model.ReportStatus;
 import com.attention.atnbackend.model.SuspiciousPerson;
 import com.attention.atnbackend.model.SuspiciousPlace;
 import com.attention.atnbackend.model.User;
+import com.attention.atnbackend.model.VoteStatus;
 import com.attention.atnbackend.repository.AddressRepository;
 import com.attention.atnbackend.repository.IncidentRepository;
 import com.attention.atnbackend.repository.SuspiciousPlaceRepository;
 import com.attention.atnbackend.repository.UserRepository;
 import com.attention.atnbackend.service.ReportService;
+import com.attention.atnbackend.util.ApplicationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +30,7 @@ import java.util.UUID;
  * @author : manojkumarpanchal
  * @created : 01/11/23, Wednesday
  **/
+@Component
 public class ReportServiceImpl implements ReportService {
 
     private IncidentRepository incidentRepository;
@@ -64,12 +68,12 @@ public class ReportServiceImpl implements ReportService {
             try {
 
                 // Adding/Updating Suspicious Place
-                if(addressRepository.findById(incidentDto.getSuspiciousPlaceDto().getAddress().getId()).get() != null) {
+                if(incidentDto.getSuspiciousPlace().getAddress().getId() != null && addressRepository.findById(incidentDto.getSuspiciousPlace().getAddress().getId()).get() != null) {
 
                     // If place already reported, just update the suspicious place.
-                    suspiciousPlace = suspiciousPlaceRepository.findSuspiciousPlaceByAddressId(incidentDto.getSuspiciousPlaceDto().getAddress().getId());
+                    suspiciousPlace = suspiciousPlaceRepository.findSuspiciousPlaceByAddressId(incidentDto.getSuspiciousPlace().getAddress().getId());
                     suspiciousPlace.setNumberOfIncidentsReported(suspiciousPlace.getNumberOfIncidentsReported()+1);
-                    suspiciousPlace.setSeverityIndex(calculateAverageSeverityIndex(suspiciousPlace, incidentDto.getSuspiciousPlaceDto().getSeverityIndex()));
+                    suspiciousPlace.setSeverityIndex(calculateAverageSeverityIndex(suspiciousPlace, incidentDto.getSuspiciousPlace().getSeverityIndex()));
 
                 } else {
 
@@ -77,22 +81,22 @@ public class ReportServiceImpl implements ReportService {
                     suspiciousPlace = new SuspiciousPlace();
 
                     String addressId = UUID.randomUUID().toString();
-                    Address address = incidentDto.getSuspiciousPlaceDto().getAddress();
+                    Address address = incidentDto.getSuspiciousPlace().getAddress();
                     address.setId(addressId);
                     addressRepository.save(address);
 
                     String suspiciousPlaceId = UUID.randomUUID().toString();
                     suspiciousPlace.setId(suspiciousPlaceId);
-                    suspiciousPlace.setTitle(incidentDto.getSuspiciousPlaceDto().getTitle());
+                    suspiciousPlace.setTitle(incidentDto.getSuspiciousPlace().getTitle());
                     suspiciousPlace.setAddressId(addressId);
                     suspiciousPlace.setDownVotes(0);
                     suspiciousPlace.setUpVotes(0);
-                    suspiciousPlace.setSeverityIndex(incidentDto.getSuspiciousPlaceDto().getSeverityIndex());
+                    suspiciousPlace.setSeverityIndex(incidentDto.getSuspiciousPlace().getSeverityIndex());
                     suspiciousPlace.setNumberOfIncidentsReported(1);
                     suspiciousPlace.setNumberOfReportsByUser(0);
                 }
 
-                suspiciousPlace.setVulnerabilities(updateVulnerabilitiesData(suspiciousPlace, incidentDto.getSuspiciousPlaceDto().getVulnerabilities()));
+                suspiciousPlace.setVulnerabilities(updateVulnerabilitiesData(suspiciousPlace, incidentDto.getSuspiciousPlace().getVulnerabilities()));
                 suspiciousPlaceRepository.save(suspiciousPlace);
             } catch (Exception e) {
                 throw new SuspiciousPlaceOperationException("Error saving/updating Suspicious Place", e);
@@ -114,7 +118,7 @@ public class ReportServiceImpl implements ReportService {
             incident.setId(incidentId);
             incident.setTitle(incidentDto.getTitle());
             incident.setReportStatus(ReportStatus.SUBMITTED.toString());
-            incident.setDateTime(incidentDto.getDateTime());
+            incident.setDateTime(ApplicationUtil.formatDate(incidentDto.getDateTime()));
             incident.setDescription(incidentDto.getDescription());
             incident.setSeverity(incidentDto.getSeverity());
             incident.setType(incidentDto.getType());
@@ -134,7 +138,7 @@ public class ReportServiceImpl implements ReportService {
 
         try{
             // Check if place already reported, then update the place data else save the new place
-            if(addressRepository.findById(suspiciousPlaceDto.getAddress().getId()) != null) {
+            if(suspiciousPlaceDto.getAddress().getId() != null && addressRepository.findById(suspiciousPlaceDto.getAddress().getId()) != null) {
 
                 suspiciousPlace = suspiciousPlaceRepository.findSuspiciousPlaceByAddressId(suspiciousPlaceDto.getAddress().getId());
                 suspiciousPlace.setSeverityIndex(calculateAverageSeverityIndex(suspiciousPlace, suspiciousPlaceDto.getSeverityIndex()));
@@ -175,24 +179,46 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public Boolean upVoteSuspiciousPlace(String suspiciousPlaceId) {
+    public String upVoteSuspiciousPlace(String suspiciousPlaceId, String userId) {
         try {
+            User user = userRepository.findById(userId).get();
+            if(user.getUpVotePlaces().contains(suspiciousPlaceId)) {
+                return VoteStatus.ALREADY_DONE.toString();
+            }
+
             SuspiciousPlace suspiciousPlace = suspiciousPlaceRepository.findById(suspiciousPlaceId).get();
             suspiciousPlace.setUpVotes(suspiciousPlace.getUpVotes()+1);
             suspiciousPlaceRepository.save(suspiciousPlace);
-            return true;
+
+            List<String> places = user.getUpVotePlaces();
+            places.add(suspiciousPlaceId);
+            user.setUpVotePlaces(places);
+            userRepository.save(user);
+
+            return  VoteStatus.SUCCESS.toString();
         } catch (Exception e) {
             throw new SuspiciousPlaceOperationException("Error while suspicious place upVote", e);
         }
     }
 
     @Override
-    public Boolean downVoteSuspiciousPlace(String suspiciousPlaceId) {
+    public String downVoteSuspiciousPlace(String suspiciousPlaceId, String userId) {
         try {
+            User user = userRepository.findById(userId).get();
+            if(user.getDownVotePlaces().contains(suspiciousPlaceId)) {
+                return VoteStatus.ALREADY_DONE.toString();
+            }
+
             SuspiciousPlace suspiciousPlace = suspiciousPlaceRepository.findById(suspiciousPlaceId).get();
             suspiciousPlace.setDownVotes(suspiciousPlace.getDownVotes()+1);
             suspiciousPlaceRepository.save(suspiciousPlace);
-            return true;
+
+            List<String> places = user.getDownVotePlaces();
+            places.add(suspiciousPlaceId);
+            user.setDownVotePlaces(places);
+            userRepository.save(user);
+
+            return  VoteStatus.SUCCESS.toString();
         } catch (Exception e) {
             throw new SuspiciousPlaceOperationException("Error while suspicious place downVote", e);
         }
@@ -209,7 +235,7 @@ public class ReportServiceImpl implements ReportService {
     private Map<String, Integer> updateVulnerabilitiesData(SuspiciousPlace suspiciousPlace, List<String> newVulnerabilities) {
         Map<String, Integer> vulnerabilities = new HashMap<>();
         for (String vulnerability : newVulnerabilities) {
-            if(suspiciousPlace.getVulnerabilities().get(vulnerability) != null) {
+            if(suspiciousPlace.getVulnerabilities() != null && suspiciousPlace.getVulnerabilities().get(vulnerability) != null) {
                 vulnerabilities.put(vulnerability, suspiciousPlace.getVulnerabilities().get(vulnerability) + 1);
             } else {
                 vulnerabilities.put(vulnerability, 1);
